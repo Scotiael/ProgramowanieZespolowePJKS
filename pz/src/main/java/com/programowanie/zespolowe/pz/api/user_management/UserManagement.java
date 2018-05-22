@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -40,7 +41,8 @@ public class UserManagement {
         User user = new User();
         user.setSurname(userModel.getLastName());
         user.setName(userModel.getFirstName());
-        user.setPassword(userModel.getPassword());
+        String passwordHashed = new BCryptPasswordEncoder().encode(userModel.getPassword());
+        user.setPassword(passwordHashed);
         user.setEmail(userModel.getEmail());
         user.setRole(roleDAO.findByRole("user"));
         userDAO.save(user);
