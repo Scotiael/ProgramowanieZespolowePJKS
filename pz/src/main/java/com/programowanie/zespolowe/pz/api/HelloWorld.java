@@ -26,7 +26,7 @@ public class HelloWorld  {
         user.setName("test");
         user.setPassword("test");
         user.setEmail("test");
-        user.setRole(roleDAO.findById(1).get());
+        user.setRole(roleDAO.findByRole("user"));
         userDAO.save(user);
         return "Hello World";
     }
