@@ -1,4 +1,4 @@
-package com.programowanie.zespolowe.pz.controllers.user_management;
+package com.programowanie.zespolowe.pz.api.user_management;
 
 import com.programowanie.zespolowe.pz.dao.RoleDAO;
 import com.programowanie.zespolowe.pz.dao.UserDAO;
