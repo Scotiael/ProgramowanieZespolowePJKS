@@ -47,4 +47,5 @@ public class UserManagement {
         user.setRole(roleDAO.findByRole("user"));
         userDAO.save(user);
     }
+
 }
