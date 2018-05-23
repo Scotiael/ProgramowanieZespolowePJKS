@@ -3,7 +3,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programowanie.zespolowe.pz.entities.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
