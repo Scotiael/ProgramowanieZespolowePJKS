@@ -10,7 +10,6 @@ import java.util.List;
  * 
  */
 @Entity
-//@NamedQuery(name="Group.findAll", query="SELECT g FROM Group g")
 public class Group implements Serializable {
 	private static final long serialVersionUID = 1L;
 

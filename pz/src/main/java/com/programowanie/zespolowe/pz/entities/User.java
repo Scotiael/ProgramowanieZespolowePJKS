@@ -10,7 +10,6 @@ import java.util.List;
  * 
  */
 @Entity
-//@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -26,13 +25,13 @@ public class User implements Serializable {
 
 	private String surname;
 
+	//bi-directional many-to-one association to Blob
+	@OneToMany(mappedBy="user")
+	private List<Blob> blobs;
+
 	//bi-directional many-to-one association to Device
 	@OneToMany(mappedBy="user")
 	private List<Device> devices;
-
-	//bi-directional many-to-one association to Package
-	@OneToMany(mappedBy="user")
-	private List<Package> packages;
 
 	//bi-directional many-to-one association to Role
 	@ManyToOne
@@ -82,6 +81,28 @@ public class User implements Serializable {
 		this.surname = surname;
 	}
 
+	public List<Blob> getBlobs() {
+		return this.blobs;
+	}
+
+	public void setBlobs(List<Blob> blobs) {
+		this.blobs = blobs;
+	}
+
+	public Blob addBlob(Blob blob) {
+		getBlobs().add(blob);
+		blob.setUser(this);
+
+		return blob;
+	}
+
+	public Blob removeBlob(Blob blob) {
+		getBlobs().remove(blob);
+		blob.setUser(null);
+
+		return blob;
+	}
+
 	public List<Device> getDevices() {
 		return this.devices;
 	}
@@ -103,28 +124,6 @@ public class User implements Serializable {
 
 		return device;
 	}
-
-	public List<Package> getPackages() {
-		return this.packages;
-	}
-
-	public void setPackages(List<Package> packages) {
-		this.packages = packages;
-	}
-
-//	public Package addPackage(Package package) {
-//		getPackages().add(package);
-//		package.setUser(this);
-//
-//		return package;
-//	}
-//
-//	public Package removePackage(Package package) {
-//		getPackages().remove(package);
-//		package.setUser(null);
-//
-//		return package;
-//	}
 
 	public Role getRole() {
 		return this.role;
