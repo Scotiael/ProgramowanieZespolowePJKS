@@ -63,21 +63,21 @@ public class DeviceManagement implements DeviceAPI{
         return commonUtil.getResponseEntity("Device created.", HttpStatus.OK);
     }
 
-//    @Override
-//    @JsonIgnore
-//    public ResponseEntity getDevicesList(@RequestHeader HttpHeaders headers){
-//        User user = commonUtil.getTokenFromHeader(headers);
-//        if(user == null){
-//            return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
-//        }
-//        List<Device> devices;
-//        try {
-//            devices = deviceDAO.findByUser(user);
-//        } catch (Exception e) {
-//            return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//        log.info(devices.toString());
-//        return ResponseEntity.status(HttpStatus.OK).body(devices);
-//    }
+    @Override
+    @JsonIgnore
+    public ResponseEntity getDevicesList(@RequestHeader HttpHeaders headers){
+        User user = commonUtil.getTokenFromHeader(headers);
+        if(user == null){
+            return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
+        }
+        List<Device> devices;
+        try {
+            devices = deviceDAO.findByUser(user);
+        } catch (Exception e) {
+            return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        log.info(devices.toString());
+        return ResponseEntity.status(HttpStatus.OK).body(devices);
+    }
 
 }
