@@ -1,5 +1,8 @@
 package com.programowanie.zespolowe.pz.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
@@ -24,6 +27,7 @@ public class Device implements Serializable {
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
+	@JsonManagedReference
 	private User user;
 
 	//bi-directional many-to-many association to Group

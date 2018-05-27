@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface DeviceDAO extends JpaRepository<Device,Integer> {
 
@@ -14,5 +16,8 @@ public interface DeviceDAO extends JpaRepository<Device,Integer> {
 
     @Query
     Device findByMacAdressAndUser(String name, User user);
+
+    @Query
+    List<Device> findByUser(User user);
 
 }

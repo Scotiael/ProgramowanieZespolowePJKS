@@ -1,33 +1,25 @@
 package com.programowanie.zespolowe.pz.api.devices;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.Gson;
 import com.programowanie.zespolowe.pz.Utils.CommonUtil;
 import com.programowanie.zespolowe.pz.dao.DeviceDAO;
 import com.programowanie.zespolowe.pz.dao.UserDAO;
 import com.programowanie.zespolowe.pz.entities.Device;
 import com.programowanie.zespolowe.pz.entities.User;
 import com.programowanie.zespolowe.pz.model.DeviceCreateDTO;
-import com.programowanie.zespolowe.pz.model.UserRegisterDTO;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.NonTransientDataAccessException;
-import org.springframework.dao.RecoverableDataAccessException;
-import org.springframework.dao.TransientDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.font.Script;
-
-import javax.script.ScriptException;
-import javax.xml.ws.Response;
-import java.sql.SQLException;
+import java.util.List;
 
 @RestController
-@RequestMapping("/device")
-public class DeviceManagement {
+public class DeviceManagement implements DeviceAPI{
 
     Logger log = LoggerFactory.getLogger(DeviceManagement.class);
 
@@ -35,25 +27,25 @@ public class DeviceManagement {
     DeviceDAO deviceDAO;
     @Autowired
     UserDAO userDAO;
+    @Autowired
+    CommonUtil commonUtil;
 
-    @RequestMapping(value= "/create", method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseEntity register(@RequestBody DeviceCreateDTO device, @RequestHeader HttpHeaders headers){
-        String userEmail = CommonUtil.getTokenFromHeader(headers);
+    Gson gson = new Gson();
 
-        if(userEmail == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+    @Override
+    public ResponseEntity register(@RequestBody DeviceCreateDTO device, @RequestHeader HttpHeaders headers){
+        User user = commonUtil.getTokenFromHeader(headers);
+
+        if(user == null){
+            return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
         }
 
-        User user = userDAO.findByEmail(userEmail);
         Device existingName = deviceDAO.findByNameAndUser(device.getName(), user);
         Device existingMac = deviceDAO.findByMacAdressAndUser(device.getName(), user);
         if(existingMac == null && existingName == null){
             return persistDevice(device, user);
         }
-        return  ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body("Duplicate mac or name.");
+        return commonUtil.getResponseEntity("Duplicate mac or name.", HttpStatus.CONFLICT);
     }
 
     private ResponseEntity persistDevice(DeviceCreateDTO deviceDTO, User user){
@@ -65,11 +57,27 @@ public class DeviceManagement {
             deviceDAO.save(device);
         } catch (DataAccessException e) {
             log.warn("Device creating exception", e);
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Exception during device creating.");
+            return commonUtil.getResponseEntity("Exception during device creating."
+                    , HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Device created.");
+        return commonUtil.getResponseEntity("Device created.", HttpStatus.OK);
     }
+
+//    @Override
+//    @JsonIgnore
+//    public ResponseEntity getDevicesList(@RequestHeader HttpHeaders headers){
+//        User user = commonUtil.getTokenFromHeader(headers);
+//        if(user == null){
+//            return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
+//        }
+//        List<Device> devices;
+//        try {
+//            devices = deviceDAO.findByUser(user);
+//        } catch (Exception e) {
+//            return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//        log.info(devices.toString());
+//        return ResponseEntity.status(HttpStatus.OK).body(devices);
+//    }
 
 }

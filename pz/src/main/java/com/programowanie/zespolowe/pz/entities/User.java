@@ -1,5 +1,8 @@
 package com.programowanie.zespolowe.pz.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
@@ -31,6 +34,7 @@ public class User implements Serializable {
 
 	//bi-directional many-to-one association to Device
 	@OneToMany(mappedBy="user")
+	@JsonBackReference
 	private List<Device> devices;
 
 	//bi-directional many-to-one association to Role
@@ -102,7 +106,6 @@ public class User implements Serializable {
 
 		return blob;
 	}
-
 	public List<Device> getDevices() {
 		return this.devices;
 	}
