@@ -61,7 +61,7 @@ DEFAULT CHARACTER SET = latin1;
 -- Table `pzdb`.`device`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pzdb`.`device` (
-  `deviceid` INT NOT NULL,
+  `deviceid` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `mac_adress` VARCHAR(45) NOT NULL,
   `user_userid` INT(11) NOT NULL,
@@ -79,7 +79,7 @@ ENGINE = InnoDB;
 -- Table `pzdb`.`group`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pzdb`.`group` (
-  `groupid` INT NOT NULL,
+  `groupid` INT NOT NULL AUTO_INCREMENT,
   `gr_name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`groupid`))
 ENGINE = InnoDB;
@@ -110,7 +110,7 @@ ENGINE = InnoDB;
 -- Table `pzdb`.`blobs`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pzdb`.`blobs` (
-  `blobid` INT NOT NULL,
+  `blobid` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `blob` BLOB NOT NULL,
   `user_userid` INT(11) NOT NULL,
