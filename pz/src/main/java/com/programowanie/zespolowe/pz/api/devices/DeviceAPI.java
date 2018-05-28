@@ -1,8 +1,6 @@
 package com.programowanie.zespolowe.pz.api.devices;
 
-import com.programowanie.zespolowe.pz.entities.Device;
 import com.programowanie.zespolowe.pz.model.DeviceCreateDTO;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
