@@ -11,11 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -79,6 +81,18 @@ public class DeviceManagement implements DeviceAPI{
         }
         log.info(devices.toString());
         return ResponseEntity.status(HttpStatus.OK).body(devices);
+    }
+
+    @Override
+    public ResponseEntity deleteDevice(@RequestParam(value = "deviceId") String deviceId, @RequestHeader HttpHeaders headers){
+        try{
+            deviceDAO.deleteById(Integer.parseInt(deviceId));
+        } catch (NumberFormatException n){
+            return commonUtil.getResponseEntity("Not a number.", HttpStatus.BAD_REQUEST);
+        } catch (Exception e){
+            return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return commonUtil.getResponseEntity("Device deleted.", HttpStatus.OK);
     }
 
 }

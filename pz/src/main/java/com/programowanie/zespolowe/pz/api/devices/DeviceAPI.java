@@ -1,6 +1,8 @@
 package com.programowanie.zespolowe.pz.api.devices;
 
+import com.programowanie.zespolowe.pz.entities.Device;
 import com.programowanie.zespolowe.pz.model.DeviceCreateDTO;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,5 +18,9 @@ public interface DeviceAPI {
     @RequestMapping(value= "/get", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     ResponseEntity getDevicesList(@RequestHeader HttpHeaders headers);
+
+    @RequestMapping(value= "/delete", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    ResponseEntity deleteDevice(@RequestParam(value = "deviceId") String deviceId, @RequestHeader HttpHeaders headers);
 
 }

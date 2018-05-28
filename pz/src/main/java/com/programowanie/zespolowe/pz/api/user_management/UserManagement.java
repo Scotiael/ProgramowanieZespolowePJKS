@@ -15,8 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
-public class UserManagement {
+public class UserManagement implements UserManagementAPI{
 
     Logger log = LoggerFactory.getLogger(UserManagement.class);
 
@@ -27,6 +26,7 @@ public class UserManagement {
     @Autowired
     CommonUtil commonUtil;
 
+    @Override
     @RequestMapping(value= "/register", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity register(@RequestBody UserRegisterDTO userModel){
         if(userDAO.findByEmail(userModel.getEmail()) != null){
