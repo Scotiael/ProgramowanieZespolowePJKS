@@ -24,4 +24,5 @@ public class PzApplication {
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
 }
