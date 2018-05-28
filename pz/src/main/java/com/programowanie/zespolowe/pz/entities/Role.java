@@ -1,7 +1,9 @@
 package com.programowanie.zespolowe.pz.entities;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -10,6 +12,7 @@ import java.util.List;
  * 
  */
 @Entity
+@NamedQuery(name="Role.findAll", query="SELECT r FROM Role r")
 public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -21,6 +24,7 @@ public class Role implements Serializable {
 
 	//bi-directional many-to-one association to User
 	@OneToMany(mappedBy="role")
+	@JsonIgnoreProperties("role")
 	private List<User> users;
 
 	public Role() {

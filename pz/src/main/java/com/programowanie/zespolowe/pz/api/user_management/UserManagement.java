@@ -1,7 +1,5 @@
 package com.programowanie.zespolowe.pz.api.user_management;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.google.gson.JsonObject;
 import com.programowanie.zespolowe.pz.Utils.CommonUtil;
 import com.programowanie.zespolowe.pz.dao.RoleDAO;
 import com.programowanie.zespolowe.pz.dao.UserDAO;

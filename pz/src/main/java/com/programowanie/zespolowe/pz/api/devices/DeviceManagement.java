@@ -1,6 +1,5 @@
 package com.programowanie.zespolowe.pz.api.devices;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.Gson;
 import com.programowanie.zespolowe.pz.Utils.CommonUtil;
 import com.programowanie.zespolowe.pz.dao.DeviceDAO;
@@ -15,7 +14,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 @RestController
@@ -64,7 +66,6 @@ public class DeviceManagement implements DeviceAPI{
     }
 
     @Override
-    @JsonIgnore
     public ResponseEntity getDevicesList(@RequestHeader HttpHeaders headers){
         User user = commonUtil.getTokenFromHeader(headers);
         if(user == null){
@@ -72,7 +73,7 @@ public class DeviceManagement implements DeviceAPI{
         }
         List<Device> devices;
         try {
-            devices = deviceDAO.findByUser(user);
+            devices = user.getDevices();
         } catch (Exception e) {
             return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -13,9 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.programowanie.zespolowe.pz.authapi.security.SecurityConstants.HEADER_STRING;
-import static com.programowanie.zespolowe.pz.authapi.security.SecurityConstants.SECRET;
-import static com.programowanie.zespolowe.pz.authapi.security.SecurityConstants.TOKEN_PREFIX;
+import static com.programowanie.zespolowe.pz.authapi.security.SecurityConstants.*;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 

@@ -1,9 +1,8 @@
 package com.programowanie.zespolowe.pz.api;
 
-import com.programowanie.zespolowe.pz.dao.GroupDAO;
+import com.programowanie.zespolowe.pz.dao.DeviceFamilyDAO;
 import com.programowanie.zespolowe.pz.dao.RoleDAO;
 import com.programowanie.zespolowe.pz.dao.UserDAO;
-import com.programowanie.zespolowe.pz.entities.Group;
 import com.programowanie.zespolowe.pz.entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,7 @@ public class HelloWorld  {
     @Autowired
     RoleDAO roleDAO;
     @Autowired
-    GroupDAO groupDAO;
+    DeviceFamilyDAO groupDAO;
 
     @RequestMapping("/pz")
     public String hello(){

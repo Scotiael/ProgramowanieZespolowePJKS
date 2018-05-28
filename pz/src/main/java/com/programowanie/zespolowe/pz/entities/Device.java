@@ -1,10 +1,10 @@
 package com.programowanie.zespolowe.pz.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -13,6 +13,7 @@ import java.util.List;
  * 
  */
 @Entity
+@NamedQuery(name="Device.findAll", query="SELECT d FROM Device d")
 public class Device implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -27,12 +28,12 @@ public class Device implements Serializable {
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
-	@JsonManagedReference
+	@JsonIgnore
 	private User user;
 
-	//bi-directional many-to-many association to Group
+	//bi-directional many-to-many association to Devicefamily
 	@ManyToMany(mappedBy="devices")
-	private List<Group> groups;
+	private List<Devicefamily> devicefamilies;
 
 	public Device() {
 	}
@@ -69,12 +70,12 @@ public class Device implements Serializable {
 		this.user = user;
 	}
 
-	public List<Group> getGroups() {
-		return this.groups;
+	public List<Devicefamily> getDevicefamilies() {
+		return this.devicefamilies;
 	}
 
-	public void setGroups(List<Group> groups) {
-		this.groups = groups;
+	public void setDevicefamilies(List<Devicefamily> devicefamilies) {
+		this.devicefamilies = devicefamilies;
 	}
 
 }

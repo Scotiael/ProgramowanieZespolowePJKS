@@ -1,7 +1,7 @@
 package com.programowanie.zespolowe.pz.entities;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 /**
@@ -10,6 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="blobs")
+@NamedQuery(name="Blob.findAll", query="SELECT b FROM Blob b")
 public class Blob implements Serializable {
 	private static final long serialVersionUID = 1L;
 

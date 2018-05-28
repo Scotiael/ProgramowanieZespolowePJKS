@@ -1,10 +1,9 @@
 package com.programowanie.zespolowe.pz.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -13,6 +12,7 @@ import java.util.List;
  * 
  */
 @Entity
+@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -34,12 +34,13 @@ public class User implements Serializable {
 
 	//bi-directional many-to-one association to Device
 	@OneToMany(mappedBy="user")
-	@JsonBackReference
+	@JsonIgnoreProperties("user")
 	private List<Device> devices;
 
 	//bi-directional many-to-one association to Role
 	@ManyToOne
 	@JoinColumn(name="role_id")
+	@JsonIgnoreProperties("users")
 	private Role role;
 
 	public User() {
@@ -106,6 +107,7 @@ public class User implements Serializable {
 
 		return blob;
 	}
+
 	public List<Device> getDevices() {
 		return this.devices;
 	}

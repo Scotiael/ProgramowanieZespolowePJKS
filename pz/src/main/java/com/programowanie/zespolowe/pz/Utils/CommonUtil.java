@@ -1,8 +1,6 @@
 package com.programowanie.zespolowe.pz.Utils;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.programowanie.zespolowe.pz.dao.UserDAO;
 import com.programowanie.zespolowe.pz.entities.User;
@@ -14,15 +12,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import springfox.documentation.spring.web.json.Json;
-
-import javax.xml.ws.Response;
 
 import java.util.List;
 
-import static com.programowanie.zespolowe.pz.authapi.security.SecurityConstants.HEADER_STRING;
-import static com.programowanie.zespolowe.pz.authapi.security.SecurityConstants.SECRET;
-import static com.programowanie.zespolowe.pz.authapi.security.SecurityConstants.TOKEN_PREFIX;
+import static com.programowanie.zespolowe.pz.authapi.security.SecurityConstants.*;
 
 @Component
 public class CommonUtil {
