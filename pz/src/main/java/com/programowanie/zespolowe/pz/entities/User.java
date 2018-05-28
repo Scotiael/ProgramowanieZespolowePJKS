@@ -9,133 +9,118 @@ import java.util.List;
 
 /**
  * The persistent class for the user database table.
- * 
  */
 @Entity
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@Table(name = "user")
 public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int userid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userid")
+    private int userid;
 
-	private String email;
+    @Basic
+    @Column(name = "email", nullable = false)
+    private String email;
 
-	private String name;
+    @Basic
+    @Column(name = "name")
+    private String name;
 
-	private String password;
+    @Basic
+    @Column(name = "password", nullable = false)
+    private String password;
 
-	private String surname;
+    @Basic
+    @Column(name = "surname")
+    private String surname;
 
-	//bi-directional many-to-one association to Blob
-	@OneToMany(mappedBy="user")
-	private List<Blob> blobs;
+    //bi-directional many-to-one association to Blob
+    @OneToMany(mappedBy = "user")
+    @Basic
+    @Column(name = "blob")
+    private List<Blob> blobs;
 
-	//bi-directional many-to-one association to Device
-	@OneToMany(mappedBy="user")
-	@JsonIgnoreProperties("user")
-	private List<Device> devices;
+    //bi-directional many-to-one association to Device
+    @OneToMany(mappedBy = "user")
+    @Basic
+    @JsonIgnoreProperties("user")
+    @Column(name = "devices")
+    private List<Device> devices;
 
-	//bi-directional many-to-one association to Role
-	@ManyToOne
-	@JoinColumn(name="role_id")
-	@JsonIgnoreProperties("users")
-	private Role role;
+    //bi-directional many-to-one association to Role
+    @ManyToOne
+    @Basic
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false)
+    @JsonIgnoreProperties("user")
+    private Role role;
 
-	public User() {
-	}
+    public User() {
+    }
 
-	public int getUserid() {
-		return this.userid;
-	}
+    public int getUserid() {
+        return this.userid;
+    }
 
-	public void setUserid(int userid) {
-		this.userid = userid;
-	}
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
 
-	public String getEmail() {
-		return this.email;
-	}
+    public String getEmail() {
+        return this.email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getPassword() {
-		return this.password;
-	}
+    public String getPassword() {
+        return this.password;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getSurname() {
-		return this.surname;
-	}
+    public String getSurname() {
+        return this.surname;
+    }
 
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
 
-	public List<Blob> getBlobs() {
-		return this.blobs;
-	}
+    public List<Blob> getBlobs() {
+        return this.blobs;
+    }
 
-	public void setBlobs(List<Blob> blobs) {
-		this.blobs = blobs;
-	}
+    public void setBlobs(List<Blob> blobs) {
+        this.blobs = blobs;
+    }
 
-	public Blob addBlob(Blob blob) {
-		getBlobs().add(blob);
-		blob.setUser(this);
+    public List<Device> getDevices() {
+        return this.devices;
+    }
 
-		return blob;
-	}
+    public void setDevices(List<Device> devices) {
+        this.devices = devices;
+    }
 
-	public Blob removeBlob(Blob blob) {
-		getBlobs().remove(blob);
-		blob.setUser(null);
+    public Role getRole() {
+        return this.role;
+    }
 
-		return blob;
-	}
-
-	public List<Device> getDevices() {
-		return this.devices;
-	}
-
-	public void setDevices(List<Device> devices) {
-		this.devices = devices;
-	}
-
-	public Device addDevice(Device device) {
-		getDevices().add(device);
-		device.setUser(this);
-
-		return device;
-	}
-
-	public Device removeDevice(Device device) {
-		getDevices().remove(device);
-		device.setUser(null);
-
-		return device;
-	}
-
-	public Role getRole() {
-		return this.role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
 }

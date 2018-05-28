@@ -11,13 +11,10 @@ import java.util.List;
 @Repository
 public interface DeviceDAO extends JpaRepository<Device,Integer> {
 
-    @Query
     Device findByNameAndUser(String name, User user);
 
-    @Query
     Device findByMacAdressAndUser(String name, User user);
 
-    @Query
     List<Device> findByUser(User user);
 
 }
