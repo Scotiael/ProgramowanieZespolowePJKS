@@ -11,7 +11,6 @@ import java.util.List;
  */
 @Entity
 @Table(name="devicefamilies")
-@NamedQuery(name="Devicefamily.findAll", query="SELECT d FROM Devicefamily d")
 public class Devicefamily implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -19,6 +18,7 @@ public class Devicefamily implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idDeviceFamilies;
 
+	@Basic
 	@Column(name="family_name")
 	private String familyName;
 

@@ -10,21 +10,22 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name="blobs")
-@NamedQuery(name="Blob.findAll", query="SELECT b FROM Blob b")
 public class Blob implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+
 	private int blobid;
 
 	@Lob
-	private byte[] blob;
+	private byte[] data;
 
 	private String name;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
+	@JoinColumn(name = "user", referencedColumnName = "userid", nullable = false)
 	private User user;
 
 	public Blob() {
@@ -38,12 +39,12 @@ public class Blob implements Serializable {
 		this.blobid = blobid;
 	}
 
-	public byte[] getBlob() {
-		return this.blob;
+	public byte[] getData() {
+		return this.data;
 	}
 
-	public void setBlob(byte[] blob) {
-		this.blob = blob;
+	public void setData(byte[] data) {
+		this.data = data;
 	}
 
 	public String getName() {
