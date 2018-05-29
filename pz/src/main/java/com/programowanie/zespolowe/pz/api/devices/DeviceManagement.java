@@ -15,10 +15,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -84,7 +81,7 @@ public class DeviceManagement implements DeviceAPI{
     }
 
     @Override
-    public ResponseEntity deleteDevice(@RequestParam(value = "deviceId") String deviceId, @RequestHeader HttpHeaders headers){
+    public ResponseEntity deleteDevice(@PathVariable(value = "someId") String deviceId, @RequestHeader HttpHeaders headers){
         try{
             deviceDAO.deleteById(Integer.parseInt(deviceId));
         } catch (NumberFormatException n){

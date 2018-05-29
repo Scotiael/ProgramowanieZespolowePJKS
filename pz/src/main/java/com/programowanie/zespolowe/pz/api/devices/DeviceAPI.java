@@ -17,8 +17,8 @@ public interface DeviceAPI {
     @ResponseBody
     ResponseEntity getDevicesList(@RequestHeader HttpHeaders headers);
 
-    @RequestMapping(value= "/delete", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value= "/delete/{someId}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    ResponseEntity deleteDevice(@RequestParam(value = "deviceId") String deviceId, @RequestHeader HttpHeaders headers);
+    ResponseEntity deleteDevice(@PathVariable(value = "someId") String deviceId, @RequestHeader HttpHeaders headers);
 
 }
