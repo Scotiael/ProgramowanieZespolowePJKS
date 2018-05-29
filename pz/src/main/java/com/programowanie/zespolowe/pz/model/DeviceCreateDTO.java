@@ -1,8 +1,11 @@
 package com.programowanie.zespolowe.pz.model;
 
-public class DeviceCreateDTO {
+import javax.validation.constraints.NotNull;
 
+public class DeviceCreateDTO {
+    @NotNull
     private String macAdress;
+    @NotNull
     private String name;
 
     public String getMacAdress() {
