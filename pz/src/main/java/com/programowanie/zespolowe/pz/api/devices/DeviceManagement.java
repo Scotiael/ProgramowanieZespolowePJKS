@@ -11,13 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 public class DeviceManagement implements DeviceAPI{
@@ -30,8 +30,6 @@ public class DeviceManagement implements DeviceAPI{
     UserDAO userDAO;
     @Autowired
     CommonUtil commonUtil;
-
-    Gson gson = new Gson();
 
     @Override
     public ResponseEntity register(@RequestBody DeviceCreateDTO device, @RequestHeader HttpHeaders headers){
@@ -81,7 +79,7 @@ public class DeviceManagement implements DeviceAPI{
     }
 
     @Override
-    public ResponseEntity deleteDevice(@PathVariable(value = "someId") String deviceId, @RequestHeader HttpHeaders headers){
+    public ResponseEntity deleteDevice(@PathVariable(value = "deviceId") String deviceId){
         try{
             deviceDAO.deleteById(Integer.parseInt(deviceId));
         } catch (NumberFormatException n){
@@ -90,6 +88,21 @@ public class DeviceManagement implements DeviceAPI{
             return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return commonUtil.getResponseEntity("Device deleted.", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity getDevice(@PathVariable(value = "deviceId") String deviceId){
+        try{
+            Device device = deviceDAO.findById(Integer.parseInt(deviceId)).get();
+            return ResponseEntity.status(HttpStatus.OK).body(device);
+        } catch (NumberFormatException n){
+            return commonUtil.getResponseEntity("Not a number.", HttpStatus.BAD_REQUEST);
+        } catch (NoSuchElementException e){
+            return commonUtil.getResponseEntity("Device not found.", HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            log.warn("Unknown exception", e);
+            return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
