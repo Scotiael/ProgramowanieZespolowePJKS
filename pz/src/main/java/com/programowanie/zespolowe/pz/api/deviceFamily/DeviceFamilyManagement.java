@@ -119,4 +119,28 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
             return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Override
+    public ResponseEntity removeDeviceToFamily(DeviceFamilyDTO deviceFamilyDTO) {
+        if (deviceFamilyDAO.existsById(deviceFamilyDTO.getFamilyID())) {
+            return commonUtil.getResponseEntity("Device family not found.", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Device device = deviceDAO.findById(deviceFamilyDTO.getDeviceID()).get();
+            if (deviceFamilyDAO.existsByDevicesEqualsAndIdDeviceFamilies(device, deviceFamilyDTO.getFamilyID()))
+                return commonUtil.getResponseEntity("This device exist in family", HttpStatus.CONFLICT);
+            else {
+                Devicefamily devicefamily = deviceFamilyDAO.findById(deviceFamilyDTO.getFamilyID()).get();
+                devicefamily.getDevices().remove(device);
+                deviceFamilyDAO.save(devicefamily);
+                return commonUtil.getResponseEntity("Device added to family", HttpStatus.OK);
+            }
+        } catch (NumberFormatException n) {
+            return commonUtil.getResponseEntity("Not a number.", HttpStatus.BAD_REQUEST);
+        } catch (NoSuchElementException e) {
+            return commonUtil.getResponseEntity("Device not found.", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

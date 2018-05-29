@@ -30,7 +30,11 @@ public interface DeviceFamilyAPI {
     @ResponseBody
     ResponseEntity editFamily(@RequestBody Devicefamily devicefamily);
 
-    @RequestMapping(value= "/addDevice", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value= "/addDevice", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     ResponseEntity addDeviceToFamily(DeviceFamilyDTO deviceFamilyDTO);
+
+    @RequestMapping(value= "/removeDevice", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    ResponseEntity removeDeviceToFamily(DeviceFamilyDTO deviceFamilyDTO);
 }
