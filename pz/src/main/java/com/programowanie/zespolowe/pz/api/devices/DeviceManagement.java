@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -32,7 +33,7 @@ public class DeviceManagement implements DeviceAPI{
     CommonUtil commonUtil;
 
     @Override
-    public ResponseEntity register(@RequestBody DeviceCreateDTO device, @RequestHeader HttpHeaders headers){
+    public ResponseEntity register(@Valid @RequestBody DeviceCreateDTO device, @RequestHeader HttpHeaders headers){
         User user = commonUtil.getTokenFromHeader(headers);
 
         if(user == null){
@@ -97,6 +98,24 @@ public class DeviceManagement implements DeviceAPI{
             return ResponseEntity.status(HttpStatus.OK).body(device);
         } catch (NumberFormatException n){
             return commonUtil.getResponseEntity("Not a number.", HttpStatus.BAD_REQUEST);
+        } catch (NoSuchElementException e){
+            return commonUtil.getResponseEntity("Device not found.", HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            log.warn("Unknown exception", e);
+            return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity editDevice(@RequestBody Device device){
+        try{
+            Device dbDeviceRef = deviceDAO.findById(device.getDeviceid()).get();
+            dbDeviceRef.setName(device.getName());
+            dbDeviceRef.setMacAdress(device.getMacAdress());
+            deviceDAO.save(dbDeviceRef);
+            return ResponseEntity.status(HttpStatus.OK).body(device);
+        } catch (NumberFormatException n){
+            return commonUtil.getResponseEntity("Id is not a number.", HttpStatus.BAD_REQUEST);
         } catch (NoSuchElementException e){
             return commonUtil.getResponseEntity("Device not found.", HttpStatus.NOT_FOUND);
         } catch (Exception e){

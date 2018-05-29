@@ -1,5 +1,6 @@
 package com.programowanie.zespolowe.pz.api.devices;
 
+import com.programowanie.zespolowe.pz.entities.Device;
 import com.programowanie.zespolowe.pz.model.DeviceCreateDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -24,5 +25,9 @@ public interface DeviceAPI {
     @RequestMapping(value= "/get/{deviceId}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     ResponseEntity getDevice(@PathVariable(value = "deviceId") String deviceId);
+
+    @RequestMapping(value= "/edit", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    ResponseEntity editDevice(@RequestBody Device device);
 
 }
