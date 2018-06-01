@@ -27,7 +27,7 @@ public class CommonUtil {
 
     private Gson gson = new Gson();
 
-    public User getTokenFromHeader(HttpHeaders header){
+    public User getUserFromHeader(HttpHeaders header){
         try {
             String token = header.get(HEADER_STRING).get(0);
             String userEmail = Jwts.parser()

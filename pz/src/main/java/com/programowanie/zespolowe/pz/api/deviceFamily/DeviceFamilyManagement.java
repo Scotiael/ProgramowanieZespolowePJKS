@@ -14,11 +14,13 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Controller
 public class DeviceFamilyManagement implements DeviceFamilyAPI {
 
     Logger log = LoggerFactory.getLogger(DeviceFamilyManagement.class);
