@@ -1,3 +1,4 @@
+
 package com.programowanie.zespolowe.pz.api.deviceFamily;
 
 import com.programowanie.zespolowe.pz.entities.Devicefamily;

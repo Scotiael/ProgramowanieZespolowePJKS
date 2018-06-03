@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@RestController
+@Controller
 public class DeviceFamilyManagement implements DeviceFamilyAPI {
 
     Logger log = LoggerFactory.getLogger(DeviceFamilyManagement.class);

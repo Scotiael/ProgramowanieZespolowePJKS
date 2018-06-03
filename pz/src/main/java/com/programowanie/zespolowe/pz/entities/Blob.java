@@ -1,5 +1,7 @@
 package com.programowanie.zespolowe.pz.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -26,6 +28,7 @@ public class Blob implements Serializable {
 	//bi-directional many-to-one association to User
 	@ManyToOne
 	@JoinColumn(name = "user", referencedColumnName = "userid", nullable = false)
+	@JsonIgnore
 	private User user;
 
 	public Blob() {

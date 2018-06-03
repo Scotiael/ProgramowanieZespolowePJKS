@@ -39,6 +39,7 @@ public class User implements Serializable {
     //bi-directional many-to-one association to Blob
     @OneToMany(mappedBy = "user")
     @Basic
+    @JsonIgnoreProperties("user")
     @Column(name = "blob")
     private List<Blob> blobs;
 

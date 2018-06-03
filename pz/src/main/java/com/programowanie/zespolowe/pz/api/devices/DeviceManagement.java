@@ -36,7 +36,7 @@ public class DeviceManagement implements DeviceAPI{
 
     @Override
     public ResponseEntity register(@Valid @RequestBody DeviceCreateDTO device, @RequestHeader HttpHeaders headers){
-        User user = commonUtil.getTokenFromHeader(headers);
+        User user = commonUtil.getUserFromHeader(headers);
 
         if(user == null){
             return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
@@ -67,7 +67,7 @@ public class DeviceManagement implements DeviceAPI{
 
     @Override
     public ResponseEntity getDevicesList(@RequestHeader HttpHeaders headers){
-        User user = commonUtil.getTokenFromHeader(headers);
+        User user = commonUtil.getUserFromHeader(headers);
         if(user == null){
             return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
         }
