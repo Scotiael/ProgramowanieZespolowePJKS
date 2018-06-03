@@ -6,6 +6,7 @@ import com.programowanie.zespolowe.pz.dao.DeviceDAO;
 import com.programowanie.zespolowe.pz.dao.DeviceFamilyDAO;
 import com.programowanie.zespolowe.pz.entities.Device;
 import com.programowanie.zespolowe.pz.entities.Devicefamily;
+import com.programowanie.zespolowe.pz.entities.User;
 import com.programowanie.zespolowe.pz.model.DeviceFamilyDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +15,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -34,16 +35,20 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
 
     @Override
     public ResponseEntity create(String familyName, HttpHeaders headers) {
-
-        if (deviceFamilyDAO.existsByFamilyName(familyName)) {
+        User user = commonUtil.getTokenFromHeader(headers);
+        if(user == null){
+            return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
+        }
+        if (deviceFamilyDAO.existsByFamilyNameAndUser(familyName,user)) {
             return commonUtil.getResponseEntity("Family with this name exist", HttpStatus.CONFLICT);
         }
-        return persistDevice(familyName);
+        return persistDevice(familyName,user);
     }
 
-    private ResponseEntity persistDevice(String familyName) {
+    private ResponseEntity persistDevice(String familyName,User user) {
         try {
             Devicefamily deviceFamily = new Devicefamily();
+            deviceFamily.setUser(user);
             deviceFamily.setFamilyName(familyName);
             deviceFamilyDAO.save(deviceFamily);
         } catch (DataAccessException e) {
@@ -56,9 +61,13 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
 
     @Override
     public ResponseEntity getDevicesFamilyList(HttpHeaders headers) {
+        User user = commonUtil.getTokenFromHeader(headers);
+        if(user == null){
+            return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
+        }
         List<Devicefamily> deviceFamilies;
         try {
-            deviceFamilies = deviceFamilyDAO.findAll();
+            deviceFamilies = deviceFamilyDAO.findByUser(user);
         } catch (Exception e) {
             return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
         }

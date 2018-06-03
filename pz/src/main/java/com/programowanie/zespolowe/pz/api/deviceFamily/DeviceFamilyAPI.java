@@ -1,3 +1,4 @@
+
 package com.programowanie.zespolowe.pz.api.deviceFamily;
 
 import com.programowanie.zespolowe.pz.entities.Devicefamily;
@@ -7,12 +8,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Api dostępowe do zarządzania grupami urządzeń.
+ */
 @RequestMapping("/deviceFamily")
 public interface DeviceFamilyAPI {
 
-    @RequestMapping(value= "/create/{familyName}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value= "/create", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    ResponseEntity create(@PathVariable(value = "familyName") String familyName, @RequestHeader HttpHeaders headers);
+    ResponseEntity create( String familyName, @RequestHeader HttpHeaders headers);
 
     @RequestMapping(value= "/get", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

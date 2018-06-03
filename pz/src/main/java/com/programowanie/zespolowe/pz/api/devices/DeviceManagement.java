@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
-
+/**
+ * Api dostępowe do zarządzania urządzeniami.
+ */
 @RestController
 public class DeviceManagement implements DeviceAPI{
 
