@@ -1,12 +1,17 @@
 
 package com.programowanie.zespolowe.pz.api.deviceFamily;
 
+import com.programowanie.zespolowe.pz.dao.DeviceFamilyDAO;
 import com.programowanie.zespolowe.pz.entities.Devicefamily;
+import com.programowanie.zespolowe.pz.model.CreateFamilyDeviceDTO;
+import com.programowanie.zespolowe.pz.model.DeviceCreateDTO;
 import com.programowanie.zespolowe.pz.model.DeviceFamilyDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * Api dostępowe do zarządzania grupami urządzeń.
@@ -16,7 +21,7 @@ public interface DeviceFamilyAPI {
 
     @RequestMapping(value= "/create", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    ResponseEntity create( String familyName, @RequestHeader HttpHeaders headers);
+    ResponseEntity create(@Valid @RequestBody CreateFamilyDeviceDTO CreateFamilyDeviceDTO, @RequestHeader HttpHeaders headers);
 
     @RequestMapping(value= "/get", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -36,9 +41,9 @@ public interface DeviceFamilyAPI {
 
     @RequestMapping(value= "/addDevice", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    ResponseEntity addDeviceToFamily(DeviceFamilyDTO deviceFamilyDTO);
+    ResponseEntity addDeviceToFamily(@RequestBody DeviceFamilyDTO deviceFamilyDTO);
 
     @RequestMapping(value= "/removeDevice", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    ResponseEntity removeDeviceToFamily(DeviceFamilyDTO deviceFamilyDTO);
+    ResponseEntity removeDeviceToFamily(@RequestBody DeviceFamilyDTO deviceFamilyDTO);
 }

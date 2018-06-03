@@ -18,6 +18,7 @@ public class Devicefamily implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Basic
 	private int idDeviceFamilies;
 
 	@ManyToOne

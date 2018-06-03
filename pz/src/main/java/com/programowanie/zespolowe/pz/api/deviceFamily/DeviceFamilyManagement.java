@@ -7,6 +7,7 @@ import com.programowanie.zespolowe.pz.dao.DeviceFamilyDAO;
 import com.programowanie.zespolowe.pz.entities.Device;
 import com.programowanie.zespolowe.pz.entities.Devicefamily;
 import com.programowanie.zespolowe.pz.entities.User;
+import com.programowanie.zespolowe.pz.model.CreateFamilyDeviceDTO;
 import com.programowanie.zespolowe.pz.model.DeviceFamilyDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import javax.xml.ws.RequestWrapper;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -35,15 +39,15 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
     DeviceFamilyDAO deviceFamilyDAO;
 
     @Override
-    public ResponseEntity create(String familyName, HttpHeaders headers) {
+    public ResponseEntity create(@RequestBody CreateFamilyDeviceDTO deviceFamilyDTO, @RequestHeader HttpHeaders headers) {
         User user = commonUtil.getUserFromHeader(headers);
         if(user == null){
             return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
         }
-        if (deviceFamilyDAO.existsByFamilyNameAndUser(familyName,user)) {
+        if (deviceFamilyDAO.existsByFamilyNameAndUser((String)deviceFamilyDTO.getFamilyName(),user)) {
             return commonUtil.getResponseEntity("Family with this name exist", HttpStatus.CONFLICT);
         }
-        return persistDevice(familyName,user);
+        return persistDevice((String)deviceFamilyDTO.getFamilyName(),user);
     }
 
     private ResponseEntity persistDevice(String familyName,User user) {
@@ -61,7 +65,7 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
     }
 
     @Override
-    public ResponseEntity getDevicesFamilyList(HttpHeaders headers) {
+    public ResponseEntity getDevicesFamilyList(@RequestHeader HttpHeaders headers) {
         User user = commonUtil.getUserFromHeader(headers);
         if(user == null){
             return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
@@ -89,7 +93,7 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
     }
 
     @Override
-    public ResponseEntity getDeviceFamily(String deviceFamilyId, HttpHeaders headers) {
+    public ResponseEntity getDeviceFamily(String deviceFamilyId, @RequestHeader HttpHeaders headers) {
         return DataBaseOperations.getById(deviceFamilyId, deviceFamilyDAO, commonUtil);
     }
 
@@ -109,7 +113,7 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
     }
 
     @Override
-    public ResponseEntity addDeviceToFamily(DeviceFamilyDTO deviceFamilyDTO) {
+    public ResponseEntity addDeviceToFamily(@RequestBody DeviceFamilyDTO deviceFamilyDTO) {
         if (deviceFamilyDAO.existsById(deviceFamilyDTO.getFamilyID())) {
             return commonUtil.getResponseEntity("Device family not found.", HttpStatus.NOT_FOUND);
         }
@@ -133,7 +137,7 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
     }
 
     @Override
-    public ResponseEntity removeDeviceToFamily(DeviceFamilyDTO deviceFamilyDTO) {
+    public ResponseEntity removeDeviceToFamily(@RequestBody DeviceFamilyDTO deviceFamilyDTO) {
         if (deviceFamilyDAO.existsById(deviceFamilyDTO.getFamilyID())) {
             return commonUtil.getResponseEntity("Device family not found.", HttpStatus.NOT_FOUND);
         }
