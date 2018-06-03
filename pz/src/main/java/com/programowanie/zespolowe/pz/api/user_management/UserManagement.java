@@ -4,10 +4,12 @@ import com.programowanie.zespolowe.pz.Utils.CommonUtil;
 import com.programowanie.zespolowe.pz.dao.RoleDAO;
 import com.programowanie.zespolowe.pz.dao.UserDAO;
 import com.programowanie.zespolowe.pz.entities.User;
+import com.programowanie.zespolowe.pz.model.FilteredUserDTO;
 import com.programowanie.zespolowe.pz.model.UserRegisterDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +53,16 @@ public class UserManagement implements UserManagementAPI{
         user.setRole(roleDAO.findByRole("user"));
         userDAO.save(user);
     }
+
+    @Override
+    public ResponseEntity getUser(@RequestHeader HttpHeaders headers){
+        User user = commonUtil.getUserFromHeader(headers);
+        if(user == null){
+            return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
+        }
+        FilteredUserDTO filteredUserDTO = new FilteredUserDTO(user.getUserid(), user.getEmail(), user.getName(), user.getSurname());
+        return ResponseEntity.status(HttpStatus.OK).body(filteredUserDTO);
+    }
+
 
 }

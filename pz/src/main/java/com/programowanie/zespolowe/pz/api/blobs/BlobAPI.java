@@ -19,4 +19,7 @@ public interface BlobAPI {
     @ResponseBody
     ResponseEntity getBlob(@PathVariable(value = "blobId") String blobId);
 
+    @RequestMapping(value = "/get", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    ResponseEntity getBlobsNamesAndIds(@RequestHeader HttpHeaders headers);
 }
