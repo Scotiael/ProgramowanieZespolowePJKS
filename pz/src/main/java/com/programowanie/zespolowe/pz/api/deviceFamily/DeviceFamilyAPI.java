@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/deviceFamily")
 public interface DeviceFamilyAPI {
 
-    @RequestMapping(value= "/create/{familyName}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value= "/create", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    ResponseEntity create(@PathVariable(value = "familyName") String familyName, @RequestHeader HttpHeaders headers);
+    ResponseEntity create( String familyName, @RequestHeader HttpHeaders headers);
 
     @RequestMapping(value= "/get", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

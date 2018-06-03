@@ -1,5 +1,7 @@
 package com.programowanie.zespolowe.pz.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -17,6 +19,10 @@ public class Devicefamily implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idDeviceFamilies;
+
+	@ManyToOne
+	@JsonIgnore
+	private User user;
 
 	@Basic
 	@Column(name="family_name")
@@ -62,4 +68,11 @@ public class Devicefamily implements Serializable {
 		this.devices = devices;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 }
