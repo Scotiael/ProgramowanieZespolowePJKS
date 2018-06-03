@@ -89,7 +89,7 @@ public class DeviceManagementTest {
         Mockito.doReturn(null).when(deviceDAO).findByMacAdressAndUser(any(),any());
 
         HttpHeaders headers = new HttpHeaders();
-        Mockito.doReturn(testUser).when(commonUtil).getTokenFromHeader(headers);
+        Mockito.doReturn(testUser).when(commonUtil).getUserFromHeader(headers);
         DeviceCreateDTO device = new DeviceCreateDTO();
         device.setName("test");
         device.setMacAdress("12345678909123");
@@ -105,7 +105,7 @@ public class DeviceManagementTest {
         Mockito.doReturn(new Device()).when(deviceDAO).findByMacAdressAndUser(any(),any());
 
         HttpHeaders headers = new HttpHeaders();
-        Mockito.doReturn(testUser).when(commonUtil).getTokenFromHeader(headers);
+        Mockito.doReturn(testUser).when(commonUtil).getUserFromHeader(headers);
         DeviceCreateDTO device = new DeviceCreateDTO();
         device.setName("test");
         device.setMacAdress("12345678909123");
@@ -119,7 +119,7 @@ public class DeviceManagementTest {
     public void registerServerError() {
         MockitoAnnotations.initMocks(this);
         HttpHeaders headers = new HttpHeaders();
-        Mockito.doReturn(testUser).when(commonUtil).getTokenFromHeader(headers);
+        Mockito.doReturn(testUser).when(commonUtil).getUserFromHeader(headers);
 
         DeviceCreateDTO deviceDTO = new DeviceCreateDTO();
         deviceDTO.setMacAdress("12345678909123");
@@ -139,7 +139,7 @@ public class DeviceManagementTest {
     @Test
     public void registerUserNotFound() {
         HttpHeaders headers = new HttpHeaders();
-        Mockito.doReturn(null).when(commonUtil).getTokenFromHeader(headers);
+        Mockito.doReturn(null).when(commonUtil).getUserFromHeader(headers);
         ResponseEntity response = deviceManagement.register(null, headers);
         Assert.assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
         Assert.assertEquals("User not found.",getResult(response));
@@ -148,7 +148,7 @@ public class DeviceManagementTest {
     @Test
     public void getDevicesListInvalidUser() {
         HttpHeaders headers = new HttpHeaders();
-        Mockito.doReturn(null).when(commonUtil).getTokenFromHeader(headers);
+        Mockito.doReturn(null).when(commonUtil).getUserFromHeader(headers);
         ResponseEntity response = deviceManagement.getDevicesList(headers);
         Assert.assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
         Assert.assertEquals("User not found.",getResult(response));
@@ -159,7 +159,7 @@ public class DeviceManagementTest {
         HttpHeaders headers = new HttpHeaders();
         User mockUser = Mockito.mock(User.class);
         Mockito.doThrow(new Exception()).when(mockUser).getDevices();
-        Mockito.doReturn(mockUser).when(commonUtil).getTokenFromHeader(headers);
+        Mockito.doReturn(mockUser).when(commonUtil).getUserFromHeader(headers);
         ResponseEntity response = deviceManagement.getDevicesList(headers);
         Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         Assert.assertEquals("Server error.",getResult(response) );
@@ -171,7 +171,7 @@ public class DeviceManagementTest {
         User mockUser = Mockito.mock(User.class);
         List<Device> list = new ArrayList<>();
         Mockito.doReturn(list).when(mockUser).getDevices();
-        Mockito.doReturn(mockUser).when(commonUtil).getTokenFromHeader(headers);
+        Mockito.doReturn(mockUser).when(commonUtil).getUserFromHeader(headers);
         ResponseEntity response = deviceManagement.getDevicesList(headers);
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
     }

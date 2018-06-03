@@ -15,6 +15,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,7 +36,7 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
 
     @Override
     public ResponseEntity create(String familyName, HttpHeaders headers) {
-        User user = commonUtil.getTokenFromHeader(headers);
+        User user = commonUtil.getUserFromHeader(headers);
         if(user == null){
             return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
         }
@@ -61,7 +62,7 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
 
     @Override
     public ResponseEntity getDevicesFamilyList(HttpHeaders headers) {
-        User user = commonUtil.getTokenFromHeader(headers);
+        User user = commonUtil.getUserFromHeader(headers);
         if(user == null){
             return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
         }
