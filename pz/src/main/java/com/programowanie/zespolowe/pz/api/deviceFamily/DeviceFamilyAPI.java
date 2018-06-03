@@ -7,6 +7,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Api dostępowe do zarządzania grupami urządzeń.
+ */
 @RequestMapping("/deviceFamily")
 public interface DeviceFamilyAPI {
 

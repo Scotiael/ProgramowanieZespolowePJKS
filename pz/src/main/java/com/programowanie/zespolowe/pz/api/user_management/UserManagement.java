@@ -14,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Api do zarządzania użytkownikami.
+ */
 @RestController
 public class UserManagement implements UserManagementAPI{
 
