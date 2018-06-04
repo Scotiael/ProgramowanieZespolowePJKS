@@ -15,4 +15,6 @@ public interface BlobDAO extends JpaRepository<Blob,Integer> {
     @Query(value ="SELECT new com.programowanie.zespolowe.pz.model.FilteredBlobDTO(b.blobid, b.name) FROM Blob b WHERE user = ?1")
     public List<FilteredBlobDTO> getOnlyIdAndNameForUser(User user);
 
+    Blob findByNameAndUser(String name, User u);
+
 }

@@ -42,11 +42,12 @@ public class BlobManagement implements BlobAPI{
             return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
         }
         try{
-            Blob blob = new Blob();
-            blob.setName(fileName);
-            blob.setUser(user);
-            blob.setData(IOUtils.toByteArray(file.getInputStream()));
-            blobDAO.save(blob);
+            Blob existingName = blobDAO.findByNameAndUser(fileName, user);
+            if(existingName == null){
+                persistBlob(fileName, user, file);
+            } else {
+                return commonUtil.getResponseEntity("Duplicated blob name.", HttpStatus.CONFLICT);
+            }
         } catch (IOException e) {
             log.warn("Input stream fail.", e);
             return commonUtil.getResponseEntity("Malformed request body", HttpStatus.BAD_REQUEST);
@@ -55,6 +56,14 @@ public class BlobManagement implements BlobAPI{
             return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return commonUtil.getResponseEntity("Blob created.", HttpStatus.OK);
+    }
+
+    public void persistBlob(String fileName, User user, MultipartFile file) throws IOException {
+        Blob blob = new Blob();
+        blob.setName(fileName);
+        blob.setUser(user);
+        blob.setData(IOUtils.toByteArray(file.getInputStream()));
+        blobDAO.save(blob);
     }
 
     @Override
