@@ -11,7 +11,7 @@ public interface BlobAPI {
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    ResponseEntity create(@RequestParam("file") MultipartFile file,
+    ResponseEntity create(@RequestBody MultipartFile file,
                           @RequestParam("fileName") String fileName,
                           @RequestHeader HttpHeaders headers);
 
