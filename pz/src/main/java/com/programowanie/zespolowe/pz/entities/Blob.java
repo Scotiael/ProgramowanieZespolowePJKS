@@ -1,9 +1,11 @@
 package com.programowanie.zespolowe.pz.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -31,7 +33,22 @@ public class Blob implements Serializable {
 	@JsonIgnore
 	private User user;
 
+	@OneToMany(mappedBy = "blob")
+	@Basic
+	@JsonIgnoreProperties("blob")
+	@Column(name = "histories")
+	@JsonIgnore
+	private List<History> histories;
+
 	public Blob() {
+	}
+
+	public List<History> getHistories() {
+		return this.histories;
+	}
+
+	public void setHistories(List<History> histories) {
+		this.histories = histories;
 	}
 
 	public int getBlobid() {

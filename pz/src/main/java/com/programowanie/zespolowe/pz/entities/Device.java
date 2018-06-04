@@ -34,7 +34,22 @@ public class Device implements Serializable {
 	@ManyToMany(mappedBy="devices")
 	private List<Devicefamily> devicefamilies;
 
+	@OneToMany(mappedBy = "device")
+	@Basic
+	@JsonIgnoreProperties("device")
+	@Column(name = "histories")
+	@JsonIgnore
+	private List<History> histories;
+
 	public Device() {
+	}
+
+	public List<History> getHistories() {
+		return this.histories;
+	}
+
+	public void setHistories(List<History> histories) {
+		this.histories = histories;
 	}
 
 	public int getDeviceid() {

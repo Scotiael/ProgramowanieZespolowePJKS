@@ -1,5 +1,6 @@
 package com.programowanie.zespolowe.pz.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -39,14 +40,14 @@ public class User implements Serializable {
     //bi-directional many-to-one association to Blob
     @OneToMany(mappedBy = "user")
     @Basic
-    @JsonIgnoreProperties("user")
+    @JsonIgnoreProperties({"user", "histories"})
     @Column(name = "blob")
     private List<Blob> blobs;
 
     //bi-directional many-to-one association to Device
     @OneToMany(mappedBy = "user")
     @Basic
-    @JsonIgnoreProperties("user")
+    @JsonIgnoreProperties({"user", "histories"})
     @Column(name = "devices")
     private List<Device> devices;
 
@@ -57,7 +58,22 @@ public class User implements Serializable {
     @JsonIgnoreProperties("user")
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    @Basic
+    @JsonIgnoreProperties({"user", "device", "blob"})
+    @JsonIgnore
+    @Column(name = "histories")
+    private List<History> histories;
+
     public User() {
+    }
+
+    public List<History> getHistories() {
+        return this.histories;
+    }
+
+    public void setHistories(List<History> histories) {
+        this.histories = histories;
     }
 
     public int getUserid() {
