@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,7 +77,6 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
         } catch (Exception e) {
             return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        log.info(deviceFamilies.toString());
         return ResponseEntity.status(HttpStatus.OK).body(deviceFamilies);
     }
 
@@ -93,7 +93,7 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
     }
 
     @Override
-    public ResponseEntity getDeviceFamily(String deviceFamilyId, @RequestHeader HttpHeaders headers) {
+    public ResponseEntity getDeviceFamily(@PathVariable(value = "familyId") String deviceFamilyId, @RequestHeader HttpHeaders headers) {
         return DataBaseOperations.getById(deviceFamilyId, deviceFamilyDAO, commonUtil);
     }
 
@@ -114,7 +114,7 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
 
     @Override
     public ResponseEntity addDeviceToFamily(@RequestBody DeviceFamilyDTO deviceFamilyDTO) {
-        if (deviceFamilyDAO.existsById(deviceFamilyDTO.getFamilyID())) {
+        if (!deviceFamilyDAO.existsById(deviceFamilyDTO.getFamilyID())) {
             return commonUtil.getResponseEntity("Device family not found.", HttpStatus.NOT_FOUND);
         }
         try {
@@ -137,19 +137,24 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
     }
 
     @Override
-    public ResponseEntity removeDeviceToFamily(@RequestBody DeviceFamilyDTO deviceFamilyDTO) {
-        if (deviceFamilyDAO.existsById(deviceFamilyDTO.getFamilyID())) {
+    public ResponseEntity removeDeviceToFamily(@PathVariable(value = "familyId") String familyId, @PathVariable(value = "deviceId") String deviceId, @RequestHeader HttpHeaders headers) {
+
+        DeviceFamilyDTO deviceFamilyDTO = new DeviceFamilyDTO();
+        deviceFamilyDTO.setDeviceID(Integer.parseInt(deviceId));
+        deviceFamilyDTO.setFamilyID(Integer.parseInt(familyId));
+
+        if (!deviceFamilyDAO.existsById(deviceFamilyDTO.getFamilyID())) {
             return commonUtil.getResponseEntity("Device family not found.", HttpStatus.NOT_FOUND);
         }
         try {
             Device device = deviceDAO.findById(deviceFamilyDTO.getDeviceID()).get();
-            if (deviceFamilyDAO.existsByDevicesEqualsAndIdDeviceFamilies(device, deviceFamilyDTO.getFamilyID()))
+            if (!deviceFamilyDAO.existsByDevicesEqualsAndIdDeviceFamilies(device, deviceFamilyDTO.getFamilyID()))
                 return commonUtil.getResponseEntity("This device exist in family", HttpStatus.CONFLICT);
             else {
                 Devicefamily devicefamily = deviceFamilyDAO.findById(deviceFamilyDTO.getFamilyID()).get();
                 devicefamily.getDevices().remove(device);
                 deviceFamilyDAO.save(devicefamily);
-                return commonUtil.getResponseEntity("Device added to family", HttpStatus.OK);
+                return commonUtil.getResponseEntity("Device deleted from family", HttpStatus.OK);
             }
         } catch (NumberFormatException n) {
             return commonUtil.getResponseEntity("Not a number.", HttpStatus.BAD_REQUEST);

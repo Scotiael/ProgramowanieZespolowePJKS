@@ -84,7 +84,6 @@ public class DeviceManagement implements DeviceAPI{
         } catch (Exception e) {
             return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        log.info(devices.toString());
         return ResponseEntity.status(HttpStatus.OK).body(devices);
     }
 

@@ -2,6 +2,7 @@ package com.programowanie.zespolowe.pz.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,6 +24,7 @@ public class Blob implements Serializable {
 	private int blobid;
 
 	@Lob
+	@Column(unique = true)
 	private byte[] data;
 
 	private String name;

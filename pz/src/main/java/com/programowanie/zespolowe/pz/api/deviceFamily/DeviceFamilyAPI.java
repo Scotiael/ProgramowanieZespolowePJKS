@@ -54,7 +54,7 @@ public interface DeviceFamilyAPI {
      */
     @RequestMapping(value = "/get/{familyId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    ResponseEntity getDeviceFamily(@PathVariable(value = "familyId") String deviceFamilyId, @RequestHeader HttpHeaders headers);
+    ResponseEntity getDeviceFamily(@PathVariable(value = "familyId") String deviceFamilyId,@RequestHeader HttpHeaders headers);
 
     /**
      * Pozwala na edycjęe grupy urządzeń
@@ -83,7 +83,7 @@ public interface DeviceFamilyAPI {
      * @see DeviceFamilyDTO#deviceID identyfikator urządzenia.
      * @see DeviceFamilyDTO#familyID identyfikator grupy do które ma zostać dodane urządzenie.
      */
-    @RequestMapping(value = "/removeDevice", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{familyId}/removeDevice/{deviceId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     ResponseEntity removeDeviceToFamily(@RequestBody DeviceFamilyDTO deviceFamilyDTO);
 }
