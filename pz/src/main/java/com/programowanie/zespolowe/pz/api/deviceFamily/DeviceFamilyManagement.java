@@ -77,7 +77,6 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
         } catch (Exception e) {
             return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        log.info(deviceFamilies.toString());
         return ResponseEntity.status(HttpStatus.OK).body(deviceFamilies);
     }
 
