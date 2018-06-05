@@ -1,10 +1,8 @@
 
 package com.programowanie.zespolowe.pz.api.deviceFamily;
 
-import com.programowanie.zespolowe.pz.dao.DeviceFamilyDAO;
 import com.programowanie.zespolowe.pz.entities.Devicefamily;
 import com.programowanie.zespolowe.pz.model.CreateFamilyDeviceDTO;
-import com.programowanie.zespolowe.pz.model.DeviceCreateDTO;
 import com.programowanie.zespolowe.pz.model.DeviceFamilyDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,31 +17,73 @@ import javax.validation.Valid;
 @RequestMapping("/deviceFamily")
 public interface DeviceFamilyAPI {
 
-    @RequestMapping(value= "/create", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * Utworzenie grupy urządzeń
+     *
+     * @param CreateFamilyDeviceDTO model danych.
+     * @param headers               nagłówek żądania dodawany do odpowiedzi
+     * @see com.programowanie.zespolowe.pz.model.CreateFamilyDeviceDTO#familyName jest jedynym wymaganym polem.
+     */
+    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     ResponseEntity create(@Valid @RequestBody CreateFamilyDeviceDTO CreateFamilyDeviceDTO, @RequestHeader HttpHeaders headers);
 
-    @RequestMapping(value= "/get", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * Pobranie wszystkich grup
+     *
+     * @param headers nagłówek żądania dodawany do odpowiedzi
+     */
+    @RequestMapping(value = "/get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     ResponseEntity getDevicesFamilyList(@RequestHeader HttpHeaders headers);
 
-    @RequestMapping(value= "/delete/{familyId}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * Usunięcie grupy o podanym id
+     *
+     * @param id indetyfikator grupy
+     */
+    @RequestMapping(value = "/delete/{familyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    ResponseEntity deleteDeviceFamily(@PathVariable(value = "familyId") String deviceId);
+    ResponseEntity deleteDeviceFamily(@PathVariable(value = "familyId") String id);
 
-    @RequestMapping(value= "/get/{familyId}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * Pobranie grupy o podanym id
+     *
+     * @param deviceFamilyId - identyfikator grupy urządzeń
+     * @param headers
+     */
+    @RequestMapping(value = "/get/{familyId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    ResponseEntity getDeviceFamily(@PathVariable(value = "familyId") String deviceFamilyId,@RequestHeader HttpHeaders headers);
+    ResponseEntity getDeviceFamily(@PathVariable(value = "familyId") String deviceFamilyId, @RequestHeader HttpHeaders headers);
 
-    @RequestMapping(value= "/edit", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * Pozwala na edycjęe grupy urządzeń
+     *
+     * @param devicefamily zeedetywane grupa urządzeń powinna posiadać id edytowanej grupy
+     */
+    @RequestMapping(value = "/edit", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     ResponseEntity editFamily(@RequestBody Devicefamily devicefamily);
 
-    @RequestMapping(value= "/addDevice", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * Dodawanie urządzenia do grupy urządzeń.
+     *
+     * @param deviceFamilyDTO musi zawierac id urządzenia i id grupy do której ma być dodane.
+     * @see DeviceFamilyDTO#deviceID identyfikator urządzenia.
+     * @see DeviceFamilyDTO#familyID identyfikator grupy do które ma zostać dodane urządzenie.
+     */
+    @RequestMapping(value = "/addDevice", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     ResponseEntity addDeviceToFamily(@RequestBody DeviceFamilyDTO deviceFamilyDTO);
 
-    @RequestMapping(value= "/removeDevice", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * Usuwanie urządzenia z grupy urządzeń.
+     *
+     * @param deviceFamilyDTO musi zawierac id urządzenia i id grupy do której ma być dodane.
+     * @see DeviceFamilyDTO#deviceID identyfikator urządzenia.
+     * @see DeviceFamilyDTO#familyID identyfikator grupy do które ma zostać dodane urządzenie.
+     */
+    @RequestMapping(value = "/removeDevice", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     ResponseEntity removeDeviceToFamily(@RequestBody DeviceFamilyDTO deviceFamilyDTO);
 }

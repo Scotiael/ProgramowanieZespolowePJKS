@@ -34,6 +34,13 @@ public class DeviceManagement implements DeviceAPI{
     @Autowired
     CommonUtil commonUtil;
 
+    /**
+     * @inheritDoc
+     *
+     * @param device  - urzędzenie które ma być dodane.
+     * @param headers - nagłówek
+     * @return Zwraca wiadomośc z odpowiednim statusem
+     */
     @Override
     public ResponseEntity register(@Valid @RequestBody DeviceCreateDTO device, @RequestHeader HttpHeaders headers){
         User user = commonUtil.getUserFromHeader(headers);

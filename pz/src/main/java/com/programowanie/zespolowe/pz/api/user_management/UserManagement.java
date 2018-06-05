@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  * Api do zarządzania użytkownikami.
  */
 @RestController
-public class UserManagement implements UserManagementAPI{
+public class UserManagement implements UserManagementAPI {
 
     Logger log = LoggerFactory.getLogger(UserManagement.class);
 
@@ -31,22 +31,31 @@ public class UserManagement implements UserManagementAPI{
     @Autowired
     CommonUtil commonUtil;
 
+    /**
+     * @inheritDoc
+     * @param userModel - model z danymi użytkownika do rejestracji.
+     * @return Zwraca wiadomośc i odpowiedni status odpowiedzi.
+     * @see HttpStatus#CONFLICT w przypadku gdy użytkownik istnieje.
+     * @see HttpStatus#INTERNAL_SERVER_ERROR gdy wystąpił błąd serwera w czasie tworzenia użytkownika
+     * @see HttpStatus#OK Tworzenie użytkownika zakończone sukcesem
+     */
     @Override
-    @RequestMapping(value= "/register", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity register(@RequestBody UserRegisterDTO userModel){
-        if(userDAO.findByEmail(userModel.getEmail()) != null){
+    @RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    ResponseEntity register(@RequestBody UserRegisterDTO userModel) {
+        if (userDAO.findByEmail(userModel.getEmail()) != null) {
             return commonUtil.getResponseEntity("User already exists.", HttpStatus.CONFLICT);
         } else {
             try {
                 persistUser(userModel);
-            } catch (Exception e){
+            } catch (Exception e) {
                 return commonUtil.getResponseEntity("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         return commonUtil.getResponseEntity("User created", HttpStatus.OK);
     }
 
-    private void persistUser(UserRegisterDTO userModel){
+    private void persistUser(UserRegisterDTO userModel) {
         User user = new User();
         user.setSurname(userModel.getLastName());
         user.setName(userModel.getFirstName());
@@ -57,10 +66,17 @@ public class UserManagement implements UserManagementAPI{
         userDAO.save(user);
     }
 
+    /**
+     * Zwraca aktualnie zalogowanego użytkownika.
+     *
+     * @param headers nagłówek
+     * @return Zwraca użytkownika lub wiadomośc z odpowiednim statusem.
+     * @see HttpStatus#NOT_FOUND gdy użytkonik nie jest zalogowany lub w nagłówku nie ma tokenu z którego można wyciągnąć informację i użytkowniku
+     */
     @Override
-    public ResponseEntity getUser(@RequestHeader HttpHeaders headers){
+    public ResponseEntity getUser(@RequestHeader HttpHeaders headers) {
         User user = commonUtil.getUserFromHeader(headers);
-        if(user == null){
+        if (user == null) {
             return commonUtil.getResponseEntity("User not found.", HttpStatus.NOT_FOUND);
         }
         FilteredUserDTO filteredUserDTO = new FilteredUserDTO(user.getUserid(), user.getEmail(), user.getName(), user.getSurname());

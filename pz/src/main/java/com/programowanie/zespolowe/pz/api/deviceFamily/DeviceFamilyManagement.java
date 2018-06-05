@@ -81,9 +81,9 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
     }
 
     @Override
-    public ResponseEntity deleteDeviceFamily(String deviceId) {
+    public ResponseEntity deleteDeviceFamily(String id) {
         try {
-            deviceFamilyDAO.deleteById(Integer.parseInt(deviceId));
+            deviceFamilyDAO.deleteById(Integer.parseInt(id));
         } catch (NumberFormatException n) {
             return commonUtil.getResponseEntity("Not a number.", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
