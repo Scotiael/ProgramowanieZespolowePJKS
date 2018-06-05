@@ -23,6 +23,7 @@ public class Device implements Serializable {
 	@Column(name="mac_adress")
 	private String macAdress;
 
+
 	private String name;
 
 	//bi-directional many-to-one association to User
@@ -32,6 +33,7 @@ public class Device implements Serializable {
 
 	//bi-directional many-to-many association to Devicefamily
 	@ManyToMany(mappedBy="devices")
+	@JsonIgnore
 	private List<Devicefamily> devicefamilies;
 
 	@OneToMany(mappedBy = "device")
