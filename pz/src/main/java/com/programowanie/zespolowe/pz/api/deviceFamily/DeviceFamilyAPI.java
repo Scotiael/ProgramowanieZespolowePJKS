@@ -77,13 +77,10 @@ public interface DeviceFamilyAPI {
     ResponseEntity addDeviceToFamily(@RequestBody DeviceFamilyDTO deviceFamilyDTO);
 
     /**
-     * Usuwanie urządzenia z grupy urządzeń.
+     * Usuwanie urządzenia z grupy urządzeń dla grupy o podanym id i urządzeń o podanym id.
      *
-     * @param deviceFamilyDTO musi zawierac id urządzenia i id grupy do której ma być dodane.
-     * @see DeviceFamilyDTO#deviceID identyfikator urządzenia.
-     * @see DeviceFamilyDTO#familyID identyfikator grupy do które ma zostać dodane urządzenie.
      */
     @RequestMapping(value = "/{familyId}/removeDevice/{deviceId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    ResponseEntity removeDeviceToFamily(@RequestBody DeviceFamilyDTO deviceFamilyDTO);
+    ResponseEntity removeDeviceToFamily(@PathVariable(value = "familyId") String familyId, @PathVariable(value = "deviceId") String deviceId, @RequestHeader HttpHeaders headers);
 }
