@@ -22,11 +22,8 @@ public class History implements Serializable {
 	@Column(name = "historyid")
 	private int historyid;
 
-	@ManyToOne
-	@Basic
-	@JoinColumn(name = "deviceid", referencedColumnName = "deviceid", nullable = false)
-	@JsonIgnoreProperties("histories")
-	private Device device;
+	private String deviceName;
+	private String deviceMac;
 
 	@ManyToOne
 	@Basic
@@ -64,12 +61,20 @@ public class History implements Serializable {
 		this.user = user;
 	}
 
-	public Device getDevice() {
-		return device;
+	public String getDeviceName() {
+		return deviceName;
 	}
 
-	public void setDevice(Device device) {
-		this.device = device;
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
+
+	public String getDeviceMac() {
+		return deviceMac;
+	}
+
+	public void setDeviceMac(String deviceMac) {
+		this.deviceMac = deviceMac;
 	}
 
 	public Blob getBlob() {

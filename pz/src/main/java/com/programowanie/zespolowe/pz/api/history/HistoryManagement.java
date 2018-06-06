@@ -42,7 +42,8 @@ public class HistoryManagement implements HistoryAPI{
         try {
             History history = new History();
             history.setBlob(blobDAO.findById(Integer.parseInt(historyEntryDTO.getBlobId())).get());
-            history.setDevice(deviceDAO.findById(Integer.parseInt(historyEntryDTO.getDeviceId())).get());
+            history.setDeviceMac(deviceDAO.findById(Integer.parseInt(historyEntryDTO.getDeviceId())).get().getMacAdress());
+            history.setDeviceName(deviceDAO.findById(Integer.parseInt(historyEntryDTO.getDeviceId())).get().getName());
             history.setUser(user);
             historyDAO.save(history);
         } catch (Exception e){

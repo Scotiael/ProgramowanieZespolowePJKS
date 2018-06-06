@@ -149,7 +149,7 @@ public class DeviceFamilyManagement implements DeviceFamilyAPI {
         try {
             Device device = deviceDAO.findById(deviceFamilyDTO.getDeviceID()).get();
             if (!deviceFamilyDAO.existsByDevicesEqualsAndIdDeviceFamilies(device, deviceFamilyDTO.getFamilyID()))
-                return commonUtil.getResponseEntity("This device exist in family", HttpStatus.CONFLICT);
+                return commonUtil.getResponseEntity("This device doesn't exists in family", HttpStatus.CONFLICT);
             else {
                 Devicefamily devicefamily = deviceFamilyDAO.findById(deviceFamilyDTO.getFamilyID()).get();
                 devicefamily.getDevices().remove(device);
